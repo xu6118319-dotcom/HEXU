@@ -3,9 +3,9 @@
 Serves the static English site and provides two JSON API endpoints:
 
   POST /api/contact   -> validates a sourcing requirement, logs it to
-                         submissions.log, and emails it to the owner via Gmail SMTP.
+                         submissions.log, and emails it to the owner via Resend.
   POST /api/feedback  -> validates a public suggestion, logs it to feedback.log,
-                         and emails it to the owner via Gmail SMTP.
+                         and emails it to the owner via Resend.
 
 Run on a PaaS (Render / Railway / any Python host):
 
@@ -15,28 +15,37 @@ Or locally:
 
     python app.py      # listens on $PORT (default 5000), bound to 0.0.0.0
 
-The Gmail "App Password" is read from the HEXU_GMAIL_APP_PASSWORD environment
-variable (set it in the hosting dashboard). A local .env file is also supported
-for development. The password is never sent to the browser.
+The Resend API key is read from the RESEND_API_KEY environment variable
+(set it in the hosting dashboard). A local .env file is also supported for
+development. The key is never sent to the browser.
+
+Why Resend and not Gmail SMTP?
+    Render's free tier blocks outbound SMTP (ports 25/465/587), so the standard
+    `smtplib` approach fails with "Network is unreachable". Resend uses HTTPS
+    (port 443) which IS allowed on Render free, plus the Python SDK is two
+    lines. Free tier: 3000 emails/month / 100/day — plenty for this site.
 """
 
 import os
 import re
 import json
-import ssl
-import smtplib
 import datetime
 
-from email.message import EmailMessage
+import resend
 from flask import Flask, request, jsonify, send_from_directory
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
 
-SMTP_HOST = "smtp.gmail.com"
-SMTP_PORT = 587
-SENDER = "xu6118319@gmail.com"
+# Recipient is hard-coded — every submission goes to the site owner.
 RECIPIENT = "xu6118319@gmail.com"
+
+# Default Resend-verified sender (works out of the box on the free tier).
+# To make it look like it came from "HEXU <noreply@hexuhub.com>", verify
+# hexuhub.com in the Resend dashboard (Domains -> Add Domain) and change
+# this to "HEXU <noreply@hexuhub.com>".
+RESEND_FROM = "onboarding@resend.dev"
+
 SUBMISSION_LOG = os.path.join(BASE, "submissions.log")
 FEEDBACK_LOG = os.path.join(BASE, "feedback.log")
 
@@ -71,7 +80,9 @@ def load_env(path):
 
 
 load_env(os.path.join(BASE, ".env"))
-APP_PASSWORD = os.environ.get("HEXU_GMAIL_APP_PASSWORD", "").strip()
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "").strip()
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
 
 
 @app.route("/")
@@ -117,7 +128,7 @@ def contact():
         pass
 
     delivered = False
-    if APP_PASSWORD:
+    if RESEND_API_KEY:
         try:
             _send_email(record)
             delivered = True
@@ -139,37 +150,32 @@ def _is_email(value):
 
 
 def _send_email(r):
-    msg = EmailMessage()
-    msg["Subject"] = "HEXU requirement — " + (r["name"] or "New submission")
-    msg["From"] = SENDER
-    msg["To"] = RECIPIENT
-    msg["Reply-To"] = r["email"]
-
-    lines = [
-        "New sourcing requirement received via HEXU",
-        "",
-        "Name: " + r["name"],
-        "Email: " + r["email"],
-        "Industry: " + r["industry"],
-        "Product information: " + r["product"],
-        "Quantity: " + r["quantity"],
-        "Timeline: " + r["timeline"],
-        "",
-        "Project requirements:",
-        r["requirements"],
-        "",
-        "Additional requirements:",
-        r["additional"],
-        "",
-        "Received at: " + r["ts"],
-    ]
-    msg.set_content("\n".join(lines))
-
-    context = ssl.create_default_context()
-    with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as server:
-        server.starttls(context=context)
-        server.login(SENDER, APP_PASSWORD)
-        server.send_message(msg)
+    params = {
+        "from": RESEND_FROM,
+        "to": [RECIPIENT],
+        "subject": "HEXU requirement — " + (r["name"] or "New submission"),
+        "text": "\n".join([
+            "New sourcing requirement received via HEXU",
+            "",
+            "Name: " + r["name"],
+            "Email: " + r["email"],
+            "Industry: " + r["industry"],
+            "Product information: " + r["product"],
+            "Quantity: " + r["quantity"],
+            "Timeline: " + r["timeline"],
+            "",
+            "Project requirements:",
+            r["requirements"],
+            "",
+            "Additional requirements:",
+            r["additional"],
+            "",
+            "Received at: " + r["ts"],
+        ]),
+    }
+    if r["email"]:
+        params["reply_to"] = [r["email"]]
+    resend.Emails.send(params)
 
 
 @app.route("/api/feedback", methods=["POST", "OPTIONS"])
@@ -203,7 +209,7 @@ def feedback():
         pass
 
     delivered = False
-    if APP_PASSWORD:
+    if RESEND_API_KEY:
         try:
             _send_feedback_email(record)
             delivered = True
@@ -221,32 +227,26 @@ def feedback():
 
 
 def _send_feedback_email(r):
-    msg = EmailMessage()
-    msg["Subject"] = "HEXU feedback — " + (r["topic"] or "General")
-    msg["From"] = SENDER
-    msg["To"] = RECIPIENT
+    params = {
+        "from": RESEND_FROM,
+        "to": [RECIPIENT],
+        "subject": "HEXU feedback — " + (r["topic"] or "General"),
+        "text": "\n".join([
+            "New feedback received via HEXU",
+            "",
+            "Name: " + r["name"],
+            "Email: " + r["email"],
+            "Topic: " + r["topic"],
+            "",
+            "Message:",
+            r["message"],
+            "",
+            "Received at: " + r["ts"],
+        ]),
+    }
     if r["email"]:
-        msg["Reply-To"] = r["email"]
-
-    lines = [
-        "New feedback received via HEXU",
-        "",
-        "Name: " + r["name"],
-        "Email: " + r["email"],
-        "Topic: " + r["topic"],
-        "",
-        "Message:",
-        r["message"],
-        "",
-        "Received at: " + r["ts"],
-    ]
-    msg.set_content("\n".join(lines))
-
-    context = ssl.create_default_context()
-    with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as server:
-        server.starttls(context=context)
-        server.login(SENDER, APP_PASSWORD)
-        server.send_message(msg)
+        params["reply_to"] = [r["email"]]
+    resend.Emails.send(params)
 
 
 @app.after_request
