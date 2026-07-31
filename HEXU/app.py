@@ -66,6 +66,7 @@ ALLOWED = {
     "consultation.html",
     "styles.css",
     "script.js",
+    "i18n.js",
     "favicon.svg",
     "og-image.svg",
 }
@@ -268,6 +269,7 @@ def procurement_intake():
     data = request.get_json(force=True, silent=True) or {}
     email = (data.get("email") or "").strip()
     problem = (data.get("problem") or "").strip()
+    lang = (data.get("lang") or "").strip()
 
     if not email or not problem:
         return jsonify({"ok": False, "error": "Email and a description of your problem are required."}), 400
@@ -278,6 +280,7 @@ def procurement_intake():
         "ts": datetime.datetime.now().isoformat(timespec="seconds"),
         "email": email,
         "problem": problem,
+        "lang": lang,
     }
 
     # Always persist so nothing is lost, even if email delivery is unavailable.
@@ -314,6 +317,7 @@ def _send_intake_email(r):
             "New procurement problem received via HEXU /consultation",
             "",
             "Email: " + r["email"],
+            "Language: " + (r.get("lang") or "unknown"),
             "",
             "Problem described:",
             r["problem"],
