@@ -1,11 +1,14 @@
 """HEXU — production web app.
 
-Serves the static English site and provides two JSON API endpoints:
+Serves the static English site and provides JSON API endpoints:
 
-  POST /api/contact   -> validates a sourcing requirement, logs it to
-                         submissions.log, and emails it to the owner via Resend.
-  POST /api/feedback  -> validates a public suggestion, logs it to feedback.log,
-                         and emails it to the owner via Resend.
+  POST /api/contact             -> validates a sourcing requirement, logs it to
+                                   submissions.log, and emails it to the owner.
+  POST /api/feedback            -> validates a public suggestion, logs it to
+                                   feedback.log, and emails it to the owner.
+  POST /api/procurement-intake  -> validates a procurement problem from the
+                                   /consultation form, logs it to intake.log,
+                                   and emails it to the owner via Resend.
 
 Run on a PaaS (Render / Railway / any Python host):
 
@@ -48,6 +51,7 @@ RESEND_FROM = "onboarding@resend.dev"
 
 SUBMISSION_LOG = os.path.join(BASE, "submissions.log")
 FEEDBACK_LOG = os.path.join(BASE, "feedback.log")
+INTAKE_LOG = os.path.join(BASE, "intake.log")
 
 # Static files this app is allowed to serve (path-traversal safe allowlist).
 ALLOWED = {
@@ -59,6 +63,7 @@ ALLOWED = {
     "privacy.html",
     "terms.html",
     "feedback.html",
+    "consultation.html",
     "styles.css",
     "script.js",
     "favicon.svg",
@@ -88,6 +93,11 @@ if RESEND_API_KEY:
 @app.route("/")
 def home():
     return send_from_directory(BASE, "index.html")
+
+
+@app.route("/consultation")
+def consultation():
+    return send_from_directory(BASE, "consultation.html")
 
 
 @app.route("/<path:filename>")
@@ -246,6 +256,72 @@ def _send_feedback_email(r):
     }
     if r["email"]:
         params["reply_to"] = [r["email"]]
+    resend.Emails.send(params)
+
+
+@app.route("/api/procurement-intake", methods=["POST", "OPTIONS"])
+def procurement_intake():
+    # CORS preflight support for any cross-origin API consumer.
+    if request.method == "OPTIONS":
+        return ("", 204)
+
+    data = request.get_json(force=True, silent=True) or {}
+    email = (data.get("email") or "").strip()
+    problem = (data.get("problem") or "").strip()
+
+    if not email or not problem:
+        return jsonify({"ok": False, "error": "Email and a description of your problem are required."}), 400
+    if not _is_email(email):
+        return jsonify({"ok": False, "error": "Please provide a valid email address."}), 400
+
+    record = {
+        "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+        "email": email,
+        "problem": problem,
+    }
+
+    # Always persist so nothing is lost, even if email delivery is unavailable.
+    try:
+        with open(INTAKE_LOG, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+    delivered = False
+    if RESEND_API_KEY:
+        try:
+            _send_intake_email(record)
+            delivered = True
+        except Exception as exc:  # noqa: BLE001 - log and continue, data is safe
+            app.logger.error("Intake email delivery failed: %s", exc)
+
+    if delivered:
+        return jsonify({"ok": True, "delivered": True})
+    return jsonify({
+        "ok": True,
+        "delivered": False,
+        "saved": True,
+        "error": "Email delivery is not configured on this server.",
+    }), 200
+
+
+def _send_intake_email(r):
+    params = {
+        "from": RESEND_FROM,
+        "to": [RECIPIENT],
+        "subject": "HEXU procurement intake — " + r["email"],
+        "text": "\n".join([
+            "New procurement problem received via HEXU /consultation",
+            "",
+            "Email: " + r["email"],
+            "",
+            "Problem described:",
+            r["problem"],
+            "",
+            "Received at: " + r["ts"],
+        ]),
+    }
+    params["reply_to"] = [r["email"]]
     resend.Emails.send(params)
 
 
