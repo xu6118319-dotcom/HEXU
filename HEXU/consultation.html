@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Start a Procurement Discussion — HEXU</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --body: #333333;
+    --muted: #777777;
+    --faint: #9a9a9a;
+    --line: #d8d8d8;
+    --line-soft: #ebebeb;
+    --req: #b23a3a;
+    --page-bg: #f5f5f4;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: var(--page-bg); color: var(--body);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; line-height: 1.55;
+  }
+  .wrap {
+    max-width: 560px; margin: 64px auto; background: #fff;
+    border: 1px solid var(--line-soft); box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    padding: 56px 56px 48px;
+  }
+  .brand {
+    font-size: 17px; font-weight: 700; letter-spacing: 0.32em;
+    color: var(--ink); margin-bottom: 34px;
+  }
+  h1.title {
+    font-size: 27px; font-weight: 600; letter-spacing: -0.01em;
+    color: var(--ink); margin: 0 0 12px; line-height: 1.2;
+  }
+  p.subtitle {
+    font-size: 15px; color: var(--muted); line-height: 1.65;
+    margin: 0 0 36px; max-width: 48ch;
+  }
+  .field { margin-bottom: 24px; }
+  label.lbl {
+    display: block; font-size: 13px; font-weight: 500; color: #444; margin-bottom: 7px;
+  }
+  label.lbl .req { color: var(--req); margin-left: 2px; font-weight: 700; }
+  input[type="email"], textarea {
+    width: 100%; font-family: inherit; font-size: 15px; color: var(--ink);
+    background: #fff; border: 1px solid var(--line); border-radius: 0;
+    padding: 12px 13px; transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  textarea { resize: vertical; min-height: 130px; line-height: 1.55; }
+  input:focus, textarea:focus {
+    outline: none; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink);
+  }
+  input::placeholder, textarea::placeholder { color: #b9b9b9; }
+  .submit-bar { margin-top: 30px; }
+  button.submit {
+    font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: 0.06em;
+    color: #fff; background: var(--ink); border: 1px solid var(--ink);
+    padding: 14px 34px; cursor: pointer; border-radius: 0; transition: background .15s ease;
+  }
+  button.submit:hover { background: #333; }
+  .form-note {
+    font-size: 12px; color: var(--faint); margin-top: 18px; line-height: 1.6; max-width: 52ch;
+  }
+  .form-error {
+    display: none; font-size: 13px; color: var(--req); margin-top: 14px; line-height: 1.5;
+  }
+  .form-error.show { display: block; }
+  button.submit:disabled { opacity: 0.55; cursor: default; }
+  .thanks { display: none; }
+  .thanks.show { display: block; }
+  .thanks .brand { margin-bottom: 30px; }
+  .thanks h2 { font-size: 23px; font-weight: 600; color: var(--ink); margin: 0 0 14px; }
+  .thanks p { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 48ch; margin: 0; }
+  @media (max-width: 640px) {
+    .wrap { padding: 40px 24px 40px; margin: 0; border: 0; }
+    h1.title { font-size: 23px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">HEXU</div>
+    <h1 class="title">Start a Procurement Discussion</h1>
+    <p class="subtitle">Tell us about the problem you are facing in your sourcing. HEXU will review it and determine how we can help.</p>
+
+    <form id="hexuForm" novalidate>
+      <div class="field">
+        <label class="lbl" for="email">Work Email <span class="req">*</span></label>
+        <input type="email" id="email" name="email" placeholder="you@company.com" required />
+      </div>
+      <div class="field">
+        <label class="lbl" for="problem">What problem are you facing in your procurement? <span class="req">*</span></label>
+        <textarea id="problem" name="problem"
+                  placeholder="e.g. We can't verify if this supplier can actually deliver. / Quality is inconsistent. / Hard to compare quotes." required></textarea>
+      </div>
+      <div class="submit-bar">
+        <button type="submit" class="submit" id="submitBtn">Submit Requirement</button>
+        <p class="form-error" id="formError"></p>
+        <p class="form-note">HEXU provides structured procurement intelligence and decision support. Submission does not guarantee supplier matching, cost savings, or specific outcomes.</p>
+      </div>
+    </form>
+
+    <div class="thanks" id="thanks">
+      <div class="brand">HEXU</div>
+      <h2>Thank you for contacting HEXU.</h2>
+      <p>We will review your requirements and respond with the next appropriate step.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var ENDPOINT = "/api/procurement-intake";
+      var form = document.getElementById("hexuForm");
+      var thanks = document.getElementById("thanks");
+      var btn = document.getElementById("submitBtn");
+      var errEl = document.getElementById("formError");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        errEl.classList.remove("show");
+        errEl.textContent = "";
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        var data = {
+          email: form.email.value.trim(),
+          problem: form.problem.value.trim()
+        };
+
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+
+        fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        })
+        .then(function (r) {
+          return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+        })
+        .then(function (res) {
+          if (res.ok && res.j && res.j.ok) {
+            form.style.display = "none";
+            thanks.classList.add("show");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            throw new Error((res.j && res.j.error) || "submit failed");
+          }
+        })
+        .catch(function () {
+          btn.disabled = false;
+          btn.textContent = "Submit Requirement";
+          errEl.textContent = "Something went wrong. Please email us at hello@hexuhub.com";
+          errEl.classList.add("show");
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
