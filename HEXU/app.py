@@ -59,6 +59,7 @@ ALLOWED = {
     "privacy.html",
     "terms.html",
     "feedback.html",
+    "survey.html",
     "styles.css",
     "script.js",
     "favicon.svg",
