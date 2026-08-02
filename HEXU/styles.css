@@ -529,3 +529,12 @@ img, svg, video { max-width: 100%; }
   .hero-badge, .hero-title, .hero-sub, .hero-tagline, .hero-bl, .hero-br, .topnav--overlay { animation: none; }
   html { scroll-behavior: auto; }
 }
+
+/* HEXU logo (shared across all pages) */
+.brand-logo { display: block; height: auto; }
+.nav-brand-logo { height: 44px; width: auto; }
+.footer-brand-logo { height: 64px; width: auto; margin-bottom: 14px; }
+@media (max-width: 640px) {
+  .nav-brand-logo { height: 38px; }
+  .footer-brand-logo { height: 56px; }
+}

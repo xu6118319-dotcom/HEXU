@@ -3,22 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HEXU — Better procurement decisions</title>
-  <meta name="description" content="HEXU is an industrial procurement advisory. We help buyers evaluate manufacturers through the HEXU Evaluation Framework and make better procurement decisions. We don't recommend suppliers — we recommend better procurement decisions." />
-  <meta property="og:title" content="HEXU — Better procurement decisions" />
-  <meta property="og:description" content="An industrial procurement advisory. We help buyers evaluate manufacturers through the HEXU Evaluation Framework and make better procurement decisions." />
+  <title>HEXU — Global Supplier Discovery & Verification Platform</title>
+  <meta name="description" content="HEXU is a global supplier discovery and verification platform. We help businesses worldwide discover, evaluate and connect with reliable manufacturers through independent assessment and on-site verification — reducing procurement risk across the global supply chain." />
+  <meta property="og:title" content="HEXU — Global Supplier Discovery & Verification Platform" />
+  <meta property="og:description" content="Find reliable manufacturers without supply chain uncertainty. Independent supplier evaluation and on-site factory verification for global businesses." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="og-image.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* helpers for the new 3-up / 6-up grids (rest of the site keeps styles.css) */
+    .grid-3 { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    @media (min-width: 680px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+    .grid-6 { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    @media (min-width: 560px) { .grid-6 { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .grid-6 { grid-template-columns: repeat(3, 1fr); } }
+    .hero-actions { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .hero-keywords { margin-top: 22px; display: inline-flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .hero-keywords span { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--navy-800);
+      background: var(--navy-050); border: 1px solid var(--navy-100); padding: 6px 12px; border-radius: var(--r-pill); }
+    .brand-logo { display: block; height: auto; }
+    .nav-brand-logo { height: 44px; width: auto; }
+    .footer-brand-logo { height: 64px; width: auto; margin-bottom: 14px; }
+    @media (max-width: 640px) { .nav-brand-logo { height: 38px; } .footer-brand-logo { height: 56px; } }
+  </style>
 </head>
 <body>
 
 <!-- ============================================================
-     HERO (RIVR-style glassmorphism)
+     HERO (RIVR-style glassmorphism — existing design)
      ============================================================ -->
 <section class="hero">
   <div class="hero-glass">
@@ -31,7 +45,9 @@
       <!-- Nav (overlay, inside hero) -->
       <nav class="topnav topnav--overlay" id="siteHeader">
         <div class="topnav-inner">
-          <a href="index.html" class="nav-brand">HEXU</a>
+          <a href="index.html" class="nav-brand" aria-label="HEXU home">
+            <img src="assets/hexu-logo.png" alt="HEXU" class="brand-logo nav-brand-logo">
+          </a>
           <ul class="nav-menu">
             <li><a href="index.html" class="is-current">Home</a></li>
             <li><a href="about.html">About</a></li>
@@ -41,9 +57,9 @@
                 <li><a href="feedback.html">Feedback</a></li>
     </ul>
     <span class="nav-cta">
-            <a href="contact.html">
+            <a href="consultation.html">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-              Start a Project
+              Request Supplier Evaluation
             </a>
           </span>
         </div>
@@ -52,19 +68,29 @@
       <div class="hero-content">
         <div class="hero-badge">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 4.8L18 8.4l-4.4 1.6L12 15l-1.6-5L6 8.4l4.4-1.6L12 2zM5 15l.9 2.6L8.5 18.5l-2.6.9L5 22l-.9-2.6L1.5 18.5l2.6-.9L5 15zm14 0l.9 2.6L22.5 18.5l-2.6.9L19 22l-.9-2.6L15.5 18.5l2.6-.9L19 15z"/></svg>
-          <span>Sourcing Intelligence</span>
+          <span>Global Supplier Verification Platform</span>
         </div>
-        <h1 class="hero-title">Better procurement<br/>decisions</h1>
-        <p class="hero-sub">HEXU helps industrial buyers evaluate manufacturers and make sourcing decisions with clarity, discipline and confidence.</p>
-        <div class="hero-tagline">We don't recommend suppliers. We recommend better procurement decisions.</div>
+        <h1 class="hero-title">Find Reliable Manufacturers Without Supply Chain Uncertainty</h1>
+        <p class="hero-sub">HEXU helps global businesses discover, evaluate, and connect with reliable suppliers through independent assessment and on-site verification.</p>
+        <div class="hero-actions">
+          <a href="consultation.html" class="btn btn-primary">Request Supplier Evaluation
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          <a href="#how" class="btn btn-outline-dark">Explore HEXU Service</a>
+        </div>
+        <div class="hero-keywords">
+          <span>Trust</span>
+          <span>Verification</span>
+          <span>Transparency</span>
+          <span>Global Supply Chain</span>
+        </div>
       </div>
 
-      <!-- bottom-left card (no fabricated metrics) -->
+      <!-- bottom-left card -->
       <div class="hero-bl">
-        <div class="hero-bl-label">At a glance</div>
-        <div class="hero-bl-text">Independent. Evidence-based. Buyer-aligned.</div>
-        <a href="contact.html" class="pill-btn">
-          Start a Project
+        <div class="hero-bl-label">Our approach</div>
+        <div class="hero-bl-text">Discover. Evaluate. Verify.</div>
+        <a href="consultation.html" class="pill-btn">
+          Request Supplier Evaluation
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
         </a>
       </div>
@@ -77,9 +103,9 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
         </div>
         <div>
-          <div class="hero-br-title">Methodology</div>
-          <a href="services.html#framework" class="hero-br-link">
-            Read the framework
+          <div class="hero-br-title">How HEXU Works</div>
+          <a href="#how" class="hero-br-link">
+            Explore the process
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </a>
         </div>
@@ -89,340 +115,147 @@
 </section>
 
 <!-- ============================================================
-     WHY HEXU EXISTS
+     WHY HEXU
      ============================================================ -->
-<section class="section section-why-exists">
-  <div class="container">
-    <header class="section-head reveal">
-      <span class="kicker">Why HEXU Exists</span>
-      <h2 class="section-title">Global sourcing opens doors — and creates uncertainty</h2>
-      <p class="section-lede">Sourcing from global manufacturing markets offers real opportunity. It also introduces risk that is easy to underestimate until a decision goes wrong.</p>
-    </header>
-
-    <div class="stand-grid">
-      <div class="stand-card reveal">
-        <div class="idx">01</div>
-        <h3>Supplier capability</h3>
-        <p>Can the manufacturer actually make this to specification, at the required volume?</p>
-      </div>
-      <div class="stand-card reveal">
-        <div class="idx">02</div>
-        <h3>Quality consistency</h3>
-        <p>Will quality hold across the whole order — not only the approved sample?</p>
-      </div>
-      <div class="stand-card reveal">
-        <div class="idx">03</div>
-        <h3>Communication reliability</h3>
-        <p>Will requirements, changes and problems be understood and acted on?</p>
-      </div>
-      <div class="stand-card reveal">
-        <div class="idx">04</div>
-        <h3>Operational risk</h3>
-        <p>What happens to lead time, cost and continuity when something slips?</p>
-      </div>
-    </div>
-
-    <p class="section-lede reveal" style="text-align:center; margin-top:32px;">HEXU exists to make sourcing decisions more structured and transparent — so the basis for each decision is clear, evidence-based and documented.</p>
-  </div>
-</section>
-
-<!-- ============================================================
-     OUR METHODOLOGY
-     ============================================================ -->
-<section class="section section-method" id="method">
-  <div class="container">
-    <header class="section-head reveal">
-      <span class="kicker">Our Methodology</span>
-      <h2 class="section-title">How HEXU reduces sourcing risk before decisions are made</h2>
-      <p class="section-lede">A five-step process built around evidence — not endorsements. Every recommendation is supported by our structured evaluation and available evidence, not by what we have been told.</p>
-    </header>
-
-    <ol class="steps">
-      <li class="step reveal">
-        <div class="step-num">01</div>
-        <div>
-          <h3 class="step-title">Requirement Analysis</h3>
-          <p class="step-text">Understand the buyer's technical specifications, quality requirements and commercial goals. Clarify what success looks like before any supplier is contacted.</p>
-        </div>
-      </li>
-      <li class="step reveal">
-        <div class="step-num">02</div>
-        <div>
-          <h3 class="step-title">Supplier Discovery</h3>
-          <p class="step-text">Identify suitable manufacturers based on capability, capacity and market fit. We build a long list first, then narrow it — never the other way around.</p>
-        </div>
-      </li>
-      <li class="step reveal">
-        <div class="step-num">03</div>
-        <div>
-          <h3 class="step-title">Supplier Evaluation</h3>
-          <p class="step-text">Review certifications, documentation and operational credibility. We ask what evidence exists for each claim — and we record what is missing.</p>
-        </div>
-      </li>
-      <li class="step reveal">
-        <div class="step-num">04</div>
-        <div>
-          <h3 class="step-title">Manufacturing Assessment</h3>
-          <p class="step-text">Evaluate available manufacturing information, production capability and operational risk. We look at what the evidence shows about how the manufacturer operates, not how it presents itself in marketing.</p>
-        </div>
-      </li>
-      <li class="step reveal">
-        <div class="step-num">05</div>
-        <div>
-          <h3 class="step-title">Recommendation</h3>
-          <p class="step-text">Present the buyer with a clear decision supported by evidence. One recommendation, one rationale, the risks made explicit.</p>
-        </div>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<!-- ============================================================
-     WHY HEXU (positioning)
-     ============================================================ -->
-<section class="section section-why">
+<section class="section">
   <div class="container">
     <header class="section-head reveal">
       <span class="kicker">Why HEXU</span>
-      <h2 class="section-title">Not another sourcing platform. A procurement partner built around better decisions</h2>
+      <h2 class="section-title">A clearer way to find and trust your manufacturing partners</h2>
+      <p class="section-lede">We combine global supplier discovery, independent evaluation and on-site verification — so the manufacturers you engage are assessed, not assumed.</p>
+    </header>
+
+    <div class="grid-3">
+      <div class="stand-card reveal">
+        <div class="idx">01</div>
+        <h3>Global Supplier Discovery</h3>
+        <p>We help businesses find manufacturers that match their specific requirements — beyond the usual marketplaces and directories.</p>
+      </div>
+      <div class="stand-card reveal">
+        <div class="idx">02</div>
+        <h3>Independent Supplier Evaluation</h3>
+        <p>We screen suppliers through document review, communication, capability analysis and risk assessment — not sales pitches.</p>
+      </div>
+      <div class="stand-card reveal">
+        <div class="idx">03</div>
+        <h3>On-site Factory Verification</h3>
+        <p>We verify production capacity, quality systems and actual operations where it matters most — on the factory floor.</p>
+        <div class="step-example">Our advantage: we can visit factories on the ground to confirm capability, quality systems and real conditions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW HEXU WORKS
+     ============================================================ -->
+<section class="section" id="how">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="kicker">How HEXU Works</span>
+      <h2 class="section-title">From requirement to verified partner in four steps</h2>
+    </header>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div>
+          <h3 class="step-title">Understand Your Procurement Needs</h3>
+          <p class="step-text">We start by clarifying your specifications, volumes, quality expectations and commercial goals.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div>
+          <h3 class="step-title">Identify Suitable Manufacturers</h3>
+          <p class="step-text">We map the manufacturer landscape and build a focused shortlist that fits your requirements.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div>
+          <h3 class="step-title">Evaluate Supplier Capability</h3>
+          <p class="step-text">We assess legitimacy, production capability, quality systems and risk through documented review.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <div>
+          <h3 class="step-title">Connect Businesses With Verified Partners</h3>
+          <p class="step-text">We introduce you only to manufacturers that have passed evaluation — with the evidence to back it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHO WE HELP
+     ============================================================ -->
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="kicker">Who We Help</span>
+      <h2 class="section-title">Built for any business seeking reliable manufacturing partners</h2>
+      <p class="section-lede">HEXU supports organisations across industries — not only industrial buyers, but any business that depends on capable, verified manufacturing.</p>
+    </header>
+
+    <div class="grid-6">
+      <div class="stand-card reveal">
+        <h3>Industrial Distributors</h3>
+        <p>Source verified manufacturers to strengthen and de-risk your product range.</p>
+      </div>
+      <div class="stand-card reveal">
+        <h3>Importers</h3>
+        <p>Reduce risk when bringing products into new and existing markets.</p>
+      </div>
+      <div class="stand-card reveal">
+        <h3>OEM Companies</h3>
+        <p>Validate production partners before you commit capacity and tooling.</p>
+      </div>
+      <div class="stand-card reveal">
+        <h3>Retail Brands</h3>
+        <p>Protect your brand with audited, capable and accountable suppliers.</p>
+      </div>
+      <div class="stand-card reveal">
+        <h3>Engineering Companies</h3>
+        <p>Match technical specifications to real, demonstrable manufacturing capability.</p>
+      </div>
+      <div class="stand-card reveal">
+        <h3>Businesses Looking For Manufacturing Partners</h3>
+        <p>Find the right factory fit without the uncertainty of an open search.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE HEXU DIFFERENCE (core value comparison)
+     ============================================================ -->
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="kicker">The HEXU Difference</span>
+      <h2 class="section-title">From uncertainty to verified confidence</h2>
     </header>
 
     <div class="compare reveal">
       <div class="compare-head">
-        <div>Traditional Sourcing</div>
+        <div>Traditional Procurement</div>
         <div>HEXU</div>
       </div>
       <div class="compare-row">
-        <div class="compare-cell">Focus on supplier quantity</div>
-        <div class="compare-cell is-hexu">Focus on supplier suitability</div>
+        <div class="compare-cell">Too many suppliers.</div>
+        <div class="compare-cell is-hexu">Verified suppliers.</div>
       </div>
       <div class="compare-row">
-        <div class="compare-cell">Marketplace first</div>
-        <div class="compare-cell is-hexu">Decision first</div>
+        <div class="compare-cell">Uncertain quality.</div>
+        <div class="compare-cell is-hexu">Transparent information.</div>
       </div>
       <div class="compare-row">
-        <div class="compare-cell">Evaluation as a badge</div>
-        <div class="compare-cell is-hexu">Evaluation as a transparent process</div>
+        <div class="compare-cell">Limited factory visibility.</div>
+        <div class="compare-cell is-hexu">Reduced procurement risks.</div>
       </div>
-      <div class="compare-row">
-        <div class="compare-cell">Many options</div>
-        <div class="compare-cell is-hexu">Better recommendations</div>
-      </div>
-      <div class="compare-row">
-        <div class="compare-cell">Price driven</div>
-        <div class="compare-cell is-hexu">Risk aware</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     HEXU EVALUATION FRAMEWORK
-     ============================================================ -->
-<section class="section section-framework" id="framework">
-  <div class="container">
-    <header class="section-head reveal">
-      <span class="kicker">HEXU Evaluation Framework</span>
-      <h2 class="section-title">Before any manufacturer is recommended, it is evaluated against a structured framework</h2>
-      <p class="section-lede">Every candidate is assessed across five modules. The output is not a list — it is a documented decision. This is HEXU's own evaluation approach, not a claimed industry standard.</p>
-    </header>
-
-    <div class="framework-grid">
-      <div class="framework-card reveal">
-        <div class="idx">01</div>
-        <h3>Business Legitimacy</h3>
-        <p class="framework-d">Confirms the manufacturer is a legitimate, transparent legal entity.</p>
-        <ul class="framework-list compact">
-          <li>Corporate identity</li>
-          <li>Registration validation</li>
-          <li>Ownership transparency</li>
-        </ul>
-      </div>
-
-      <div class="framework-card reveal">
-        <div class="idx">02</div>
-        <h3>Manufacturing Capability</h3>
-        <p class="framework-d">Assesses whether production capability matches the scale of the order.</p>
-        <ul class="framework-list compact">
-          <li>Production process</li>
-          <li>Equipment maturity</li>
-          <li>Capacity assessment</li>
-        </ul>
-      </div>
-
-      <div class="framework-card reveal">
-        <div class="idx">03</div>
-        <h3>Quality Assurance</h3>
-        <p class="framework-d">Reviews how consistently quality is controlled and documented.</p>
-        <ul class="framework-list compact">
-          <li>Quality management</li>
-          <li>Inspection workflow</li>
-          <li>Compliance records</li>
-        </ul>
-      </div>
-
-      <div class="framework-card reveal">
-        <div class="idx">04</div>
-        <h3>Commercial Reliability</h3>
-        <p class="framework-d">Evaluates how dependable the manufacturer is as a trading partner.</p>
-        <ul class="framework-list compact">
-          <li>Export experience</li>
-          <li>Delivery consistency</li>
-          <li>Communication responsiveness</li>
-        </ul>
-      </div>
-
-      <div class="framework-card is-wide reveal">
-        <div class="idx">05</div>
-        <h3>Decision Assessment</h3>
-        <p class="framework-d">Weighs opportunity against risk to form a clear final recommendation.</p>
-        <ul class="framework-list">
-          <li>Opportunity</li>
-          <li>Risk</li>
-          <li>Final recommendation</li>
-        </ul>
-      </div>
-    </div>
-
-    <p class="section-lede reveal" style="text-align:center; margin-top:32px;">"Better procurement begins with better decisions."</p>
-  </div>
-</section>
-
-<!-- ============================================================
-     FROM RFQ TO RECOMMENDATION (illustrative example)
-     ============================================================ -->
-<section class="section section-rfq" id="rfq">
-  <div class="container">
-    <header class="section-head reveal">
-      <span class="kicker">From RFQ to Recommendation</span>
-      <h2 class="section-title">A single procurement decision, from initial requirement to final recommendation</h2>
-      <p class="section-lede">The following walkthrough is an <strong>illustrative scenario</strong>, not a real engagement. It shows how a typical RFQ moves through our process — including candidates that are considered and then rejected, and why.</p>
-    </header>
-
-    <div style="text-align:center;" class="reveal">
-      <span class="illustrative-banner"><span class="dot"></span>Illustrative example · not based on a real HEXU engagement</span>
-    </div>
-
-    <div class="rfq-step is-active reveal">
-      <div class="rfq-step-label">Step 01</div>
-      <div>
-        <h3 class="rfq-step-title">Requirements Submitted</h3>
-        <p class="rfq-step-text">The buyer defines technical specifications, quality expectations and commercial goals for the sourcing project.</p>
-      </div>
-    </div>
-
-    <div class="rfq-step reveal">
-      <div class="rfq-step-label">Step 02</div>
-      <div>
-        <h3 class="rfq-step-title">Manufacturers Identified</h3>
-        <p class="rfq-step-text">Manufacturers matching the technical and capacity requirements are identified across the relevant markets.</p>
-      </div>
-    </div>
-
-    <div class="rfq-step reveal">
-      <div class="rfq-step-label">Step 03</div>
-      <div>
-        <h3 class="rfq-step-title">Framework Evaluation</h3>
-        <p class="rfq-step-text">Every candidate is assessed against the five modules of the HEXU Evaluation Framework — legitimacy, capability, quality, reliability and risk.</p>
-      </div>
-    </div>
-
-    <div class="rfq-step reveal">
-      <div class="rfq-step-label">Step 04</div>
-      <div>
-        <h3 class="rfq-step-title">Candidates Rejected</h3>
-        <p class="rfq-step-text">Not every qualified manufacturer is suitable. Candidates are removed from consideration for different reasons.</p>
-        <div class="rfq-step-reasons">
-          <div>Quality documentation incomplete</div>
-          <div>Capacity insufficient for order volume</div>
-          <div>Export experience limited</div>
-        </div>
-        <div class="example-grid">
-          <div class="example-item"><div class="k">Supplier A</div><div class="v">Production capacity below project requirements.</div></div>
-          <div class="example-item"><div class="k">Supplier B</div><div class="v">Quality documentation incomplete.</div></div>
-          <div class="example-item"><div class="k">Supplier C</div><div class="v">Inconsistent process control.</div></div>
-          <div class="example-item"><div class="k">Supplier D</div><div class="v">Limited export experience.</div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="rfq-step reveal">
-      <div class="rfq-step-label">Step 05</div>
-      <div>
-        <h3 class="rfq-step-title">Supplier Recommended</h3>
-        <p class="rfq-step-text">The remaining candidate demonstrates documented legitimacy, consistent quality systems and manageable risk — supporting a clear, evidence-based recommendation to the buyer.</p>
-      </div>
-    </div>
-
-    <div class="final-decision reveal">
-      <div class="k">Final Decision</div>
-      <p>The recommended supplier demonstrated the strongest balance between capability, consistency and operational reliability.</p>
-      <p>The recommendation was based on evidence rather than price alone.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     WHAT HEXU STANDS FOR
-     ============================================================ -->
-<section class="section section-stand">
-  <div class="container">
-    <header class="section-head reveal">
-      <span class="kicker">What HEXU Stands For</span>
-      <h2 class="section-title">The principles that shape every HEXU engagement</h2>
-      <p class="section-lede">HEXU is built around a single commitment: that buyers deserve structured, independent intelligence — not a sales pitch.</p>
-    </header>
-
-    <div class="stand-grid">
-      <div class="stand-card reveal">
-        <div class="idx">01</div>
-        <h3>Independent Perspective</h3>
-        <p>HEXU does not represent manufacturers or receive supplier commissions. Every assessment is independent of commercial relationships.</p>
-      </div>
-      <div class="stand-card reveal">
-        <div class="idx">02</div>
-        <h3>Structured Evaluation</h3>
-        <p>Every supplier is assessed using the same HEXU Evaluation Framework — across legitimacy, manufacturing capability, quality, commercial reliability and operational risk.</p>
-      </div>
-      <div class="stand-card reveal">
-        <div class="idx">03</div>
-        <h3>Evidence Before Recommendation</h3>
-        <p>Recommendations are supported by documentation, operational observations and structured comparison — not by assumptions, marketing materials or unverified claims.</p>
-      </div>
-      <div class="stand-card reveal">
-        <div class="idx">04</div>
-        <h3>Designed for Cross-Border Procurement</h3>
-        <p>Our evaluation standards are designed to address the realities of cross-border sourcing — where documentation gaps, language barriers and regulatory differences create risk.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     WHAT YOU RECEIVE
-     ============================================================ -->
-<section class="section section-deliver">
-  <div class="container">
-    <header class="section-head reveal">
-      <span class="kicker">What You Receive</span>
-      <h2 class="section-title">Every engagement concludes with a structured procurement package</h2>
-      <p class="section-lede">Designed to support confident business decisions — internally with management teams and externally with stakeholders.</p>
-    </header>
-
-    <div class="deliver-grid">
-      <div class="deliver-card reveal"><div class="idx">01</div><h3>Executive Recommendation</h3><p>A concise executive summary explaining which manufacturer is recommended, why it was selected and the key considerations behind the decision.</p></div>
-      <div class="deliver-card reveal"><div class="idx">02</div><h3>Supplier Comparison Matrix</h3><p>A structured comparison of shortlisted manufacturers across capability, quality, commercial reliability, operational risk and strategic fit.</p></div>
-      <div class="deliver-card reveal"><div class="idx">03</div><h3>Risk Assessment</h3><p>An independent review of operational, manufacturing and commercial risks together with practical mitigation recommendations.</p></div>
-      <div class="deliver-card reveal"><div class="idx">04</div><h3>Evidence Package</h3><p>Supporting documentation including certifications, production information, company evaluation and relevant operational evidence.</p></div>
-      <div class="deliver-card reveal"><div class="idx">05</div><h3>Decision Rationale</h3><p>A transparent explanation of how every conclusion was reached so procurement teams can understand the reasoning behind each recommendation.</p></div>
-      <div class="deliver-card reveal"><div class="idx">06</div><h3>Management-Ready Report</h3><p>A professionally formatted report that can be shared internally with procurement leaders, management teams or stakeholders.</p></div>
-    </div>
-
-    <div class="final-output reveal">
-      <span class="kicker">Final Output</span>
-      <h2>One recommendation.<br/>Complete decision confidence</h2>
-      <p>HEXU delivers more than supplier information. We deliver structured intelligence that helps buyers make procurement decisions with greater confidence and lower risk.</p>
-      <a href="contact.html" class="btn btn-outline-dark">Start a Project</a>
     </div>
   </div>
 </section>
@@ -432,10 +265,11 @@
      ============================================================ -->
 <section class="closing">
   <div class="container">
-    <span class="kicker">Begin a conversation</span>
-    <h2>Tell us what you need. We will help structure the sourcing decision</h2>
-    <p>Share your project requirements. HEXU's role is to make the path from requirement to recommendation clearer, safer and more disciplined.</p>
-    <a href="contact.html" class="btn btn-primary">Submit a Requirement</a>
+    <span class="kicker">Get Started</span>
+    <h2>Tell us your sourcing requirements.</h2>
+    <p>Our team will help identify suitable manufacturing partners — assessed, verified and ready to engage.</p>
+    <a href="consultation.html" class="btn btn-primary">Request Supplier Evaluation
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
   </div>
 </section>
 
@@ -446,9 +280,9 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="brand">HEXU</div>
-        <p class="footer-tag">"We don't recommend suppliers. We recommend better procurement decisions."</p>
-        <p class="footer-statement">HEXU is an industrial procurement advisory helping buyers evaluate suppliers and make sourcing decisions with clarity, discipline and confidence.</p>
+        <img src="assets/hexu-logo.png" alt="HEXU" class="brand-logo footer-brand-logo">
+        <p class="footer-tag">"Find reliable manufacturers without supply chain uncertainty."</p>
+        <p class="footer-statement">HEXU is a global supplier discovery and verification platform. We help businesses worldwide discover, evaluate and connect with reliable manufacturers through independent assessment and on-site verification.</p>
       </div>
       <div class="footer-col">
         <h4>Navigate</h4>
@@ -461,19 +295,19 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Methodology</h4>
+        <h4>Capabilities</h4>
         <ul>
-          <li><a href="process.html#method">Our Methodology</a></li>
-          <li><a href="services.html#framework">HEXU Evaluation Framework</a></li>
-          <li><a href="process.html#rfq">From RFQ to Recommendation</a></li>
+          <li><a href="#how">Supplier Discovery</a></li>
+          <li><a href="#how">Supplier Evaluation</a></li>
+          <li><a href="#how">Factory Verification</a></li>
+          <li><a href="consultation.html">Request Evaluation</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Engage</h4>
         <ul>
-          <li><a href="contact.html">Submit a Requirement</a></li>
-          <li><a href="contact.html">Request a Briefing</a></li>
-          <li><a href="feedback.html">Share feedback</a></li>
+          <li><a href="consultation.html">Request Supplier Evaluation</a></li>
+          <li><a href="feedback.html">Share Feedback</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -485,13 +319,14 @@
       </div>
     </div>
     <div class="footer-base">
-      <div>© 2026 HEXU · Industrial procurement advisory</div>
-      <div class="meta">Independent. Evidence-based. Buyer-aligned.</div>
+      <div>© 2026 HEXU · Global Supplier Discovery &amp; Verification Platform</div>
+      <div class="meta">Trust · Verification · Transparency</div>
     </div>
   </div>
 </footer>
 
 <script src="script.js"></script>
 <script src="i18n.js"></script>
+<script src="i18n-index-overrides.js"></script>
 </body>
 </html>

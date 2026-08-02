@@ -17,32 +17,20 @@
           "label": "English"
       },
       {
-          "code": "ja",
-          "label": "日本語"
-      },
-      {
-          "code": "ko",
-          "label": "한국어"
-      },
-      {
           "code": "de",
           "label": "Deutsch"
       },
       {
-          "code": "vi",
-          "label": "Tiếng Việt"
+          "code": "nl",
+          "label": "Nederlands"
       },
       {
-          "code": "es",
-          "label": "Español"
+          "code": "fr",
+          "label": "Français"
       },
       {
-          "code": "ru",
-          "label": "Русский"
-      },
-      {
-          "code": "hi",
-          "label": "हिन्दी"
+          "code": "it",
+          "label": "Italiano"
       }
   ];
 
@@ -2511,8 +2499,8 @@
 
     var nav = (navigator.language || navigator.userLanguage || "en").toLowerCase();
     var map = {
-      zh: "zh", ja: "ja", ko: "ko", de: "de",
-      vi: "vi", es: "es", ru: "ru", hi: "hi", en: "en"
+      zh: "zh", de: "de", nl: "nl", fr: "fr",
+      it: "it", en: "en"
     };
     var base = nav.split("-")[0];
     if (map[base] && hasLang(map[base])) return map[base];
