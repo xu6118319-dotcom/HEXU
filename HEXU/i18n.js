@@ -233,8 +233,11 @@
   function loadLangPack(lang, cb) {
     if (!lang || lang === "en") { if (cb) cb(); return; }
     if (DICTS[lang] && Object.keys(DICTS[lang]).length) { if (cb) cb(); return; }
+    // Pages may opt into their own pack namespace (e.g. survey.html sets
+    // window.HEXU_I18N_PACK = "survey-" to load /i18n/survey-de.json).
+    var pack = typeof window.HEXU_I18N_PACK === "string" ? window.HEXU_I18N_PACK : "";
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/i18n/" + encodeURIComponent(lang) + ".json", true);
+    xhr.open("GET", "/i18n/" + pack + encodeURIComponent(lang) + ".json", true);
     xhr.setRequestHeader("Accept", "application/json");
     xhr.onload = function () {
       if (xhr.status >= 200 && xhr.status < 300) {

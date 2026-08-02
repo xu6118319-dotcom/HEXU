@@ -1,0 +1,14 @@
+# Logs written by the Flask API at runtime
+*.log
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Local secrets (never commit)
+.env
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

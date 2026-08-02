@@ -4,6 +4,22 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Start a Procurement Discussion — HEXU</title>
+<meta name="description" content="Tell us about the problem you are facing in your sourcing. HEXU will review it and determine how we can help.">
+<link rel="canonical" href="https://hexuhub.com/consultation.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#1e325a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HEXU">
+<meta property="og:url" content="https://hexuhub.com/consultation.html">
+<meta property="og:title" content="Start a Procurement Discussion — HEXU">
+<meta property="og:description" content="Tell HEXU about the sourcing problem you are facing. We review your requirement and recommend vetted, independently assessed manufacturers.">
+<meta property="og:image" content="https://hexuhub.com/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Start a Procurement Discussion — HEXU">
+<meta name="twitter:description" content="Tell HEXU about the sourcing problem you are facing. We review your requirement and recommend vetted, independently assessed manufacturers.">
+<meta name="twitter:image" content="https://hexuhub.com/assets/og-image.png">
 <style>
   :root {
     --ink: #1a1a1a;
@@ -13,22 +29,26 @@
     --line: #d8d8d8;
     --line-soft: #ebebeb;
     --req: #b23a3a;
+    --navy: #1e325a;
     --page-bg: #f5f5f4;
   }
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0; background: var(--page-bg); color: var(--body);
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
     -webkit-font-smoothing: antialiased; line-height: 1.55;
   }
   .wrap {
-    max-width: 560px; margin: 64px auto; background: #fff;
+    max-width: 560px; margin: 48px auto 64px; background: #fff;
     border: 1px solid var(--line-soft); box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    padding: 56px 56px 48px;
+    padding: 40px 48px 40px;
   }
+  .brand-link { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; margin-bottom: 28px; }
+  .brand-link:hover .brand { color: #172645; }
+  .brand-logo { height: 34px; width: auto; display: block; }
   .brand {
     font-size: 17px; font-weight: 700; letter-spacing: 0.32em;
-    color: var(--ink); margin-bottom: 34px;
+    color: var(--ink);
   }
   h1.title {
     font-size: 27px; font-weight: 600; letter-spacing: -0.01em;
@@ -36,8 +56,20 @@
   }
   p.subtitle {
     font-size: 15px; color: var(--muted); line-height: 1.65;
-    margin: 0 0 36px; max-width: 48ch;
+    margin: 0 0 22px; max-width: 48ch;
   }
+  .hexpromo {
+    margin: 0 0 30px; background: #f7f9fc; border: 1px solid #dde3ec;
+    border-left: 3px solid var(--navy); border-radius: 10px;
+    padding: 14px 16px; font-size: 13.5px; color: var(--muted); line-height: 1.6;
+  }
+  .hexpromo b { color: var(--ink); }
+  .sitebtn {
+    display: inline-block; background: var(--navy); color: #fff !important;
+    text-decoration: none; font-weight: 700; padding: 7px 14px; border-radius: 8px;
+    margin-top: 10px; font-size: 13px; letter-spacing: .01em;
+  }
+  .sitebtn:hover { background: #172645; }
   .field { margin-bottom: 24px; }
   label.lbl {
     display: block; font-size: 13px; font-weight: 500; color: #444; margin-bottom: 7px;
@@ -70,20 +102,34 @@
   button.submit:disabled { opacity: 0.55; cursor: default; }
   .thanks { display: none; }
   .thanks.show { display: block; }
-  .thanks .brand { margin-bottom: 30px; }
+  .thanks .brand-link { margin-bottom: 24px; }
   .thanks h2 { font-size: 23px; font-weight: 600; color: var(--ink); margin: 0 0 14px; }
   .thanks p { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 48ch; margin: 0; }
+  footer.foot { border-top: 1px solid var(--line-soft); margin-top: 36px; padding-top: 20px; font-size: 13px; color: var(--muted); }
+  footer.foot .foot-contact { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 8px; }
+  footer.foot .foot-contact b { color: var(--ink); font-weight: 600; }
+  footer.foot .foot-contact a { color: var(--navy); text-decoration: none; font-weight: 600; }
+  footer.foot .foot-note { margin-top: 12px; max-width: 52ch; line-height: 1.55; }
   @media (max-width: 640px) {
-    .wrap { padding: 40px 24px 40px; margin: 0; border: 0; }
+    .wrap { padding: 32px 22px 36px; margin: 0; border: 0; }
     h1.title { font-size: 23px; }
+    button.submit { width: 100%; }
   }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="brand">HEXU</div>
+    <a class="brand-link" href="https://hexuhub.com" title="HEXU — Global Supplier Discovery &amp; Verification Platform">
+      <img src="assets/hexu-logo.png" alt="HEXU" class="brand-logo">
+      <span class="brand">HEXU</span>
+    </a>
     <h1 class="title">Start a Procurement Discussion</h1>
     <p class="subtitle">Tell us about the problem you are facing in your sourcing. HEXU will review it and determine how we can help.</p>
+
+    <div class="hexpromo">
+      <b>About HEXU.</b> HEXU is a Global Supplier Discovery &amp; Verification Platform. Based in China, HEXU provides direct factory verification and local supplier assessment for global businesses — so the manufacturers you engage are assessed, not assumed.
+      <a href="https://hexuhub.com" class="sitebtn">Learn more at hexuhub.com</a>
+    </div>
 
     <form id="hexuForm" novalidate>
       <div class="field">
@@ -103,11 +149,27 @@
     </form>
 
     <div class="thanks" id="thanks">
-      <div class="brand">HEXU</div>
+      <a class="brand-link" href="https://hexuhub.com" title="HEXU — Global Supplier Discovery &amp; Verification Platform">
+        <img src="assets/hexu-logo.png" alt="HEXU" class="brand-logo">
+        <span class="brand">HEXU</span>
+      </a>
       <h2>Thank you for contacting HEXU.</h2>
       <p>We will review your requirements and respond with the next appropriate step.</p>
     </div>
+
+    <footer class="foot">
+      <div class="foot-contact">
+        <span><b>Email:</b> <a href="mailto:hello@hexuhub.com">hello@hexuhub.com</a></span>
+        <span><b>Location:</b> China</span>
+        <span><b>Web:</b> <a href="https://hexuhub.com">hexuhub.com</a></span>
+      </div>
+      <p class="foot-note">HEXU works with global businesses seeking reliable manufacturing partners. Your requirement is reviewed confidentially and never shared with manufacturers without your consent.</p>
+    </footer>
   </div>
+
+  <!-- Survey/consultation uses its own language pack namespace. -->
+  <script>window.HEXU_I18N_PACK = "consult-";</script>
+  <script defer src="i18n.js"></script>
 
   <script>
     (function () {

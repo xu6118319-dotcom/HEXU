@@ -52,6 +52,7 @@ RESEND_FROM = "onboarding@resend.dev"
 SUBMISSION_LOG = os.path.join(BASE, "submissions.log")
 FEEDBACK_LOG = os.path.join(BASE, "feedback.log")
 INTAKE_LOG = os.path.join(BASE, "intake.log")
+SURVEY_LOG = os.path.join(BASE, "survey.log")
 
 # Static files this app is allowed to serve (path-traversal safe allowlist).
 ALLOWED = {
@@ -269,6 +270,88 @@ def _send_feedback_email(r):
             "",
             "Received at: " + r["ts"],
         ]),
+    }
+    if r["email"]:
+        params["reply_to"] = [r["email"]]
+    resend.Emails.send(params)
+
+
+@app.route("/api/survey", methods=["POST", "OPTIONS"])
+def survey():
+    """Industry research survey (survey.html).
+
+    Previously the survey posted through a mailto: link, which silently failed
+    for anyone using webmail. Responses now come here, are always written to
+    disk, and are emailed when Resend is configured.
+    """
+    if request.method == "OPTIONS":
+        return ("", 204)
+
+    data = request.get_json(force=True, silent=True) or {}
+    challenges = data.get("challenges") or []
+    if not isinstance(challenges, list):
+        challenges = [str(challenges)]
+    challenges = [str(c).strip() for c in challenges if str(c).strip()][:20]
+
+    email = (data.get("email") or "").strip()
+    if not challenges:
+        return jsonify({"ok": False, "error": "Please select at least one sourcing challenge."}), 400
+    if email and not _is_email(email):
+        return jsonify({"ok": False, "error": "Please provide a valid email address."}), 400
+
+    record = {
+        "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+        "challenges": challenges,
+        "challenges_other": (data.get("challenges_other") or "").strip()[:2000],
+        "challenges_free": (data.get("challenges_free") or "").strip()[:2000],
+        "biggest_risk": (data.get("biggest_risk") or "").strip()[:2000],
+        "email": email,
+        "lang": (data.get("lang") or "").strip()[:8],
+    }
+
+    # Always persist first so a response is never lost to a mail failure.
+    try:
+        with open(SURVEY_LOG, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+    delivered = False
+    if RESEND_API_KEY:
+        try:
+            _send_survey_email(record)
+            delivered = True
+        except Exception as exc:  # noqa: BLE001 - log and continue, data is safe
+            app.logger.error("Survey email delivery failed: %s", exc)
+
+    return jsonify({"ok": True, "delivered": delivered, "saved": True})
+
+
+def _send_survey_email(r):
+    lines = [
+        "New survey response — HEXU Industrial Sourcing Research 2026",
+        "",
+        "Challenges selected:",
+        ", ".join(r["challenges"]) or "(none)",
+    ]
+    if r["challenges_other"]:
+        lines += ["", "Other (checked):", r["challenges_other"]]
+    if r["challenges_free"]:
+        lines += ["", "Other challenges described:", r["challenges_free"]]
+    lines += [
+        "",
+        "Biggest risk:",
+        r["biggest_risk"] or "(blank)",
+        "",
+        "Contact email: " + (r["email"] or "(not provided)"),
+        "Language: " + (r["lang"] or "en"),
+        "Received at: " + r["ts"],
+    ]
+    params = {
+        "from": RESEND_FROM,
+        "to": [RECIPIENT],
+        "subject": "HEXU survey response (" + (r["lang"] or "en") + ")",
+        "text": "\n".join(lines),
     }
     if r["email"]:
         params["reply_to"] = [r["email"]]

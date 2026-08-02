@@ -32,4 +32,12 @@
     <loc>https://hexuhub.com/terms.html</loc>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://hexuhub.com/survey.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hexuhub.com/consultation.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>
