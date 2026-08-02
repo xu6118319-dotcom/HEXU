@@ -24,6 +24,49 @@
     window.addEventListener('scroll', update, { passive: true });
   }
 
+  // ----- Hero video: skip the download on save-data / slow connections -----
+  const heroVideo = document.getElementById('heroVideo');
+  if (heroVideo) {
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const slow = conn && (conn.saveData === true || /^(slow-)?2g$/.test(conn.effectiveType || ''));
+    if (slow) {
+      // keep the poster frame, drop the video payload entirely
+      heroVideo.removeAttribute('autoplay');
+      heroVideo.preload = 'none';
+      const src = heroVideo.querySelector('source');
+      if (src) src.remove();
+      heroVideo.load();
+    }
+  }
+
+  // ----- Mobile navigation (hamburger) -----
+  const navToggle = document.getElementById('navToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if (navToggle && mobileNav) {
+    const setOpen = (open) => {
+      mobileNav.hidden = !open;
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) {
+        const first = mobileNav.querySelector('a, button');
+        if (first) first.focus();
+      }
+    };
+    navToggle.addEventListener('click', () => setOpen(mobileNav.hidden));
+    const navClose = document.getElementById('navClose');
+    if (navClose) navClose.addEventListener('click', () => setOpen(false));
+    // close after tapping any link inside the drawer
+    mobileNav.addEventListener('click', (e) => {
+      if (e.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobileNav.hidden) setOpen(false);
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 900 && !mobileNav.hidden) setOpen(false);
+    }, { passive: true });
+  }
+
   // ----- Reveal on scroll -----
   const reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && reveals.length) {

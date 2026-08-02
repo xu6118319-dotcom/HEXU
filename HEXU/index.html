@@ -8,7 +8,7 @@
   <meta property="og:title" content="HEXU — Global Supplier Discovery & Verification Platform" />
   <meta property="og:description" content="Find reliable manufacturers without supply chain uncertainty. Independent supplier evaluation and on-site factory verification for global businesses." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="og-image.svg" />
+  <meta property="og:image" content="https://hexuhub.com/assets/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
@@ -28,6 +28,16 @@
     .footer-brand-logo { height: 64px; width: auto; margin-bottom: 14px; }
     @media (max-width: 640px) { .nav-brand-logo { height: 38px; } .footer-brand-logo { height: 56px; } }
   </style>
+  <link rel="canonical" href="https://hexuhub.com/index.html" />
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "HEXU",
+  "url": "https://hexuhub.com",
+  "logo": "https://hexuhub.com/assets/hexu-logo.png",
+  "sameAs": [],
+  "description": "HEXU is a global supplier discovery and verification platform. We help businesses worldwide discover, evaluate and connect with reliable manufacturers through independent assessment and on-site factory verification in China."
+}</script>
 </head>
 <body>
 
@@ -36,8 +46,9 @@
      ============================================================ -->
 <section class="hero">
   <div class="hero-glass">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto">
-      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260428_193507_4286c423-2fd9-4efd-92bd-91a939453fc1.mp4" type="video/mp4" />
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline
+           preload="metadata" fetchpriority="low" poster="assets/hero-poster.jpg" aria-hidden="true">
+      <source src="assets/hero.mp4" type="video/mp4" />
     </video>
     <div class="hero-scrim"></div>
 
@@ -62,6 +73,9 @@
               Request Supplier Evaluation
             </a>
           </span>
+          <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
         </div>
       </nav>
 
@@ -123,6 +137,7 @@
       <span class="kicker">Why HEXU</span>
       <h2 class="section-title">A clearer way to find and trust your manufacturing partners</h2>
       <p class="section-lede">We combine global supplier discovery, independent evaluation and on-site verification — so the manufacturers you engage are assessed, not assumed.</p>
+      <p class="local-note">Based in China, HEXU provides direct factory verification and local supplier assessment for global businesses.</p>
     </header>
 
     <div class="grid-3">
@@ -138,10 +153,55 @@
       </div>
       <div class="stand-card reveal">
         <div class="idx">03</div>
-        <h3>On-site Factory Verification</h3>
+        <h3>On-site Factory Verification in China</h3>
         <p>We verify production capacity, quality systems and actual operations where it matters most — on the factory floor.</p>
         <div class="step-example">Our advantage: we can visit factories on the ground to confirm capability, quality systems and real conditions.</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRUST — HOW HEXU REDUCES SUPPLIER RISK
+     ============================================================ -->
+<section class="section section-trust" id="trust">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="kicker">Verification Framework</span>
+      <h2 class="section-title">How HEXU Reduces Supplier Risk</h2>
+      <p class="section-lede">Every engagement runs through the same four checkpoints, and each one produces documented evidence — so your decision rests on findings rather than claims.</p>
+    </header>
+
+    <div class="trust-grid">
+      <div class="trust-card reveal">
+        <div class="trust-num">01</div>
+        <h3>Supplier Discovery</h3>
+        <p>We map manufacturers against your specification, volume and target market — not only the ones that pay to be visible.</p>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-num">02</div>
+        <h3>Capability Evaluation</h3>
+        <p>We assess production capacity, equipment, certifications and quality systems against what your product actually requires.</p>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-num">03</div>
+        <h3>Factory Verification</h3>
+        <p>We visit the factory in person in China to confirm that operations, capacity and conditions match what was presented on paper.</p>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-num">04</div>
+        <h3>Risk Assessment</h3>
+        <p>We document legitimacy, capacity, quality and continuity risks in writing, so you know what you are taking on before you commit.</p>
+      </div>
+    </div>
+
+    <div class="trust-sample reveal">
+      <div class="trust-sample-copy">
+        <span class="kicker">Example Supplier Evaluation Report</span>
+        <h3>See exactly what you receive before you commit.</h3>
+        <p>A redacted sample of the report HEXU delivers at the end of an evaluation — capability findings, verification evidence, risk flags and a clear recommendation.</p>
+      </div>
+      <a href="supplier-evaluation-report.pdf" class="btn btn-primary trust-sample-btn" target="_blank" rel="noopener">View Sample Report</a>
     </div>
   </div>
 </section>
@@ -325,7 +385,30 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
-<script src="i18n.js"></script>
+
+<!-- Mobile navigation drawer -->
+<div class="mobile-nav" id="mobileNav" hidden>
+  <div class="mobile-nav-top">
+    <a href="index.html" class="nav-brand" aria-label="HEXU home">
+      <img src="assets/hexu-logo.png" alt="HEXU" class="brand-logo nav-brand-logo">
+    </a>
+    <button class="nav-toggle" id="navClose" type="button" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <ul class="mobile-nav-list">
+      <li><a href="index.html" class="is-current">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="process.html">Process</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+  </ul>
+  <a href="consultation.html" class="mobile-nav-cta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Request Supplier Evaluation</a>
+  <p class="mobile-nav-meta">Email <a href="mailto:hello@hexuhub.com">hello@hexuhub.com</a></p>
+</div>
+
+<script src="script.js" defer></script>
+<script src="i18n.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+# Environment and secrets
+.env
+
+# Runtime logs
+*.log
+
+# Generated distribution archives
+*.zip

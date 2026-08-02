@@ -8,12 +8,13 @@
   <meta property="og:title" content="About — HEXU" />
   <meta property="og:description" content="A global supplier discovery and verification platform — helping businesses worldwide connect with reliable manufacturers through independent assessment." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="og-image.svg" />
+  <meta property="og:image" content="https://hexuhub.com/assets/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="canonical" href="https://hexuhub.com/about.html" />
 </head>
 <body>
 
@@ -34,6 +35,9 @@
         Start a Project
       </a>
     </span>
+          <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
   </div>
 </nav>
 
@@ -160,7 +164,30 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
-<script src="i18n.js"></script>
+
+<!-- Mobile navigation drawer -->
+<div class="mobile-nav" id="mobileNav" hidden>
+  <div class="mobile-nav-top">
+    <a href="index.html" class="nav-brand" aria-label="HEXU home">
+      <img src="assets/hexu-logo.png" alt="HEXU" class="brand-logo nav-brand-logo">
+    </a>
+    <button class="nav-toggle" id="navClose" type="button" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <ul class="mobile-nav-list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="is-current">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="process.html">Process</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+  </ul>
+  <a href="contact.html" class="mobile-nav-cta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>Start a Project</a>
+  <p class="mobile-nav-meta">Email <a href="mailto:hello@hexuhub.com">hello@hexuhub.com</a></p>
+</div>
+
+<script src="script.js" defer></script>
+<script src="i18n.js" defer></script>
 </body>
 </html>

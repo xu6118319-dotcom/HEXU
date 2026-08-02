@@ -70,6 +70,10 @@ ALLOWED = {
     "i18n.js",
     "favicon.svg",
     "og-image.svg",
+    "og-image.png",
+    "robots.txt",
+    "sitemap.xml",
+    "supplier-evaluation-report.pdf",
 }
 
 
@@ -112,6 +116,11 @@ def serve(filename):
 @app.route("/assets/<path:filename>")
 def serve_assets(filename):
     return send_from_directory(os.path.join(BASE, "assets"), filename)
+
+
+@app.route("/i18n/<path:filename>")
+def serve_i18n(filename):
+    return send_from_directory(os.path.join(BASE, "i18n"), filename)
 
 
 @app.route("/api/contact", methods=["POST"])
@@ -336,10 +345,22 @@ def _send_intake_email(r):
 
 
 @app.after_request
-def _cors(resp):
+def _headers(resp):
+    # Static files: long-lived cache so the browser reuses them across pages.
+    # i18n.js can be large (619 KB), so it gets a 24 h cache.
+    path = request.path
+    if path.startswith("/assets/") or path.startswith("/i18n/") or path.endswith((".css", ".js", ".json", ".svg", ".png", ".jpg", ".jpeg", ".pdf", ".mp4", ".ico")):
+        if "i18n.js" in path or path.startswith("/i18n/"):
+            resp.headers["Cache-Control"] = "public, max-age=86400, s-maxage=86400"
+        else:
+            resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    # SEO / legal files change rarely; keep them cached briefly to balance freshness.
+    if path in ("/robots.txt", "/sitemap.xml") or path.endswith(".html"):
+        resp.headers["Cache-Control"] = "public, max-age=3600"
+
     # Permissive CORS for the API routes (harmless; useful if you later call
     # them from another origin such as a subdomain).
-    if request.path.startswith("/api/"):
+    if path.startswith("/api/"):
         resp.headers["Access-Control-Allow-Origin"] = "*"
         resp.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
         resp.headers["Access-Control-Allow-Headers"] = "Content-Type"

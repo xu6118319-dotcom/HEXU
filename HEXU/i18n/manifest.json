@@ -1,0 +1,12 @@
+{
+  "langs": [
+    "en",
+    "zh",
+    "de",
+    "nl",
+    "fr",
+    "it"
+  ],
+  "default": "en",
+  "baseUrl": "/i18n/"
+}
