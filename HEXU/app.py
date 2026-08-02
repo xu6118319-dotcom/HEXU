@@ -355,7 +355,7 @@ def _headers(resp):
         else:
             resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
     # SEO / legal files change rarely; keep them cached briefly to balance freshness.
-    if path in ("/robots.txt", "/sitemap.xml") or path.endswith(".html"):
+    if path in ("/", "/robots.txt", "/sitemap.xml") or path.endswith(".html"):
         resp.headers["Cache-Control"] = "public, max-age=3600"
 
     # Permissive CORS for the API routes (harmless; useful if you later call
