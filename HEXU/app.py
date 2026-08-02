@@ -109,6 +109,11 @@ def serve(filename):
     return send_from_directory(BASE, filename)
 
 
+@app.route("/assets/<path:filename>")
+def serve_assets(filename):
+    return send_from_directory(os.path.join(BASE, "assets"), filename)
+
+
 @app.route("/api/contact", methods=["POST"])
 def contact():
     data = request.get_json(force=True, silent=True) or {}
